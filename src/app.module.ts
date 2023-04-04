@@ -14,11 +14,12 @@ import { User } from './user/entities/user.entity';
         useFactory: async (configService : ConfigService) =>({
           type: 'postgres',
           host: 'localhost',
-          port: 5433,
-          username: 'postgres',
-          password:'admin',
-          database: 'PEI',
-          entities: [__dirname + '/**/*.entity{.ts,.js}'],
+          port: configService.get<number>('DB_PORT'),
+          username:  configService.get<string>('DB_USER'),
+          password: configService.get<string>('DB_PASSWORD'),
+          database:  configService.get<string>('DB_NAME'),
+          // entities: [__dirname + '/**/**/*.entity{.ts,.js}'],
+          entities: [User],
           synchronize: true,
           retryDelay: 3000,
           retryAttempts:10
