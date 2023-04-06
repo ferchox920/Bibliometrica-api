@@ -5,6 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
+import { OrganizationModule } from './organization/organization.module';
+
 
 @Module({
   imports: [
@@ -30,7 +32,8 @@ import { User } from './user/entities/user.entity';
       envFilePath: '.env',
       isGlobal: true,
     }),
-    UserModule
+    UserModule,
+    OrganizationModule
   ],
   controllers: [AppController],
   providers: [AppService],
