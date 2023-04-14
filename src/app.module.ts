@@ -5,8 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
-import { OrganizationModule } from './organization/organization.module';
-
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -33,7 +32,7 @@ import { OrganizationModule } from './organization/organization.module';
       isGlobal: true,
     }),
     UserModule,
-    OrganizationModule
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
