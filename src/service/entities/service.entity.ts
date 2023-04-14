@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Organization } from 'src/organization/entities/organization.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Service {
@@ -19,10 +20,10 @@ export class Service {
     expiration: string;
 
     @Column({nullable: true})
-    video: Text;
+    video: string;
 
     @Column({nullable: true})
-    img: Text;
+    img: string;
 
     @Column()
     avalible: boolean;
@@ -31,5 +32,8 @@ export class Service {
     capacity: number;
 
     @Column({nullable: true})
-    document: Text;
+    document: string;
+
+    @ManyToOne(()=> Organization, organization=> organization.services)
+    organization: Organization;
 }
