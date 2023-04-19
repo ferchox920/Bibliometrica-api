@@ -7,6 +7,9 @@ import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { ServiceModule } from './service/service.module';
+import { Service } from './service/entities/service.entity';
+import { OrganizationModule } from './organization/organization.module';
+import { Organization } from './organization/entities/organization.entity';
 
 @Module({
   imports: [
@@ -21,7 +24,7 @@ import { ServiceModule } from './service/service.module';
           password: configService.get<string>('DB_PASSWORD'),
           database:  configService.get<string>('DB_NAME'),
           // entities: [__dirname + '/**/**/*.entity{.ts,.js}'],
-          entities: [User],
+          entities: [User, Service, Organization],
           synchronize: true,
           retryDelay: 3000,
           retryAttempts:10
@@ -34,7 +37,8 @@ import { ServiceModule } from './service/service.module';
     }),
     UserModule,
     AuthModule,
-    ServiceModule
+    ServiceModule,
+    OrganizationModule
   ],
   controllers: [AppController],
   providers: [AppService],

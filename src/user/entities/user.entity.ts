@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Service } from 'src/service/entities/service.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
 
 
 @Entity()
@@ -17,4 +18,7 @@ export class User {
 
   @Column()
   password: string;
+
+  @ManyToMany(()=> Service, (service)=> service.members)
+  services: Service[];
 }
