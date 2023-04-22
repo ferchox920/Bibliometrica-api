@@ -1,24 +1,34 @@
-import { Service } from 'src/service/entities/service.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
-
+import { ServiceProduct } from 'src/service/entities/serviceProduct.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToMany,
+  JoinTable,
+  ManyToOne,
+} from 'typeorm';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   firstName: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   lastName: string;
 
-  @Column({unique: true})
+  @Column({ unique: true })
   email: string;
 
   @Column()
   password: string;
 
-  @ManyToMany(()=> Service, (service)=> service.members)
-  services: Service[];
+  @ManyToMany(() => ServiceProduct)
+  @JoinTable()
+  services: ServiceProduct[];
+
+  @ManyToOne(() => User, (user) => user.services)
+  creator: User;
 }

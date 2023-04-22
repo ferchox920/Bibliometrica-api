@@ -41,3 +41,4 @@ export class Service {
     @ManyToMany(()=> User, user=> user.services )
     members: User[];
 }
+
