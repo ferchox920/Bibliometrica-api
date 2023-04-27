@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
+import { Organization } from 'src/organization/entities/organization.entity';
 
 @Entity()
 export class ServiceProduct {
@@ -22,7 +23,7 @@ export class ServiceProduct {
   video: string;
 
   @Column({ nullable: true })
-  img: Text;
+  img: string;
 
   @Column()
   available: boolean;
@@ -31,7 +32,7 @@ export class ServiceProduct {
   capacity: number;
 
   @Column({ nullable: true })
-  document: Text;
+  document: string;
 
   @ManyToOne(() => User, user => user.services)
   creator: User;
@@ -43,4 +44,8 @@ export class ServiceProduct {
   @ManyToMany(() => User)
   @JoinTable()
   group: User[];
+
+  @ManyToOne(()=> Organization, organization => organization.services)
+  @JoinTable()
+  organization: Organization;
 }

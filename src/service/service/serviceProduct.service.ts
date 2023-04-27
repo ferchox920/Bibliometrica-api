@@ -1,19 +1,49 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {  Repository } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { NotFoundException } from '@nestjs/common';
 import { ServiceProduct } from '../entities/serviceProduct.entity';
+import { CreateServiceDto } from '../dto/create-service.dto';
+import { Organization } from 'src/organization/entities/organization.entity';
 
 @Injectable()
 export class ServiceProductService {
   constructor(
     @InjectRepository(ServiceProduct)
-    private readonly serviceRepository: Repository<ServiceProduct>,
+    private  serviceRepository: Repository<ServiceProduct>,
+    @InjectRepository(Organization)
+    private organizationRepo : Repository<Organization>,
+    @InjectRepository(User)
+    private userRepo : Repository<User>
   ) {}
 
-  async create(service: ServiceProduct): Promise<ServiceProduct> {
-    return await this.serviceRepository.save(service);
+  async create(service: CreateServiceDto): Promise<ServiceProduct> {
+//------------organization-----------------------------------
+    const organization = await this.organizationRepo.findOne({where:{
+      id: service.organizationId
+    }})
+    if(!organization){ throw new HttpException("ORGANIZATION_NOT_FOUND", 404)}
+
+//------------creator-----------------------------------
+    const creator = await this.userRepo.findOne({where:{id: service.creatorId}})
+    if(!creator){throw new HttpException("USER_NOT_FOUND", 404)}
+
+//------------leaders-----------------------------------
+const ids = service.leadersIds 
+    const leaders = await this.userRepo
+      .createQueryBuilder('user')
+      .where('user.id IN (:...ids)', { ids })
+      .getMany();
+
+    const newService = await this.serviceRepository.create(service)
+
+    newService.organization = organization;
+    newService.creator = creator;
+    newService.leaders = leaders;
+
+    
+    return await this.serviceRepository.save(newService);
   }
 
   async findAll(): Promise<ServiceProduct[]> {

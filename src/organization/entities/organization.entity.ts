@@ -1,4 +1,4 @@
-import { Service } from 'src/service/entities/serviceProduct.entity';
+import { ServiceProduct } from 'src/service/entities/serviceProduct.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity()
@@ -19,7 +19,7 @@ export class Organization {
     @Column()
     plan: string;
 
-    @OneToMany(() => Service, service => service.organization)
-    services: Service[];
+    @OneToMany(() => ServiceProduct, service => service.organization)
+    services: ServiceProduct[];
     
 }
