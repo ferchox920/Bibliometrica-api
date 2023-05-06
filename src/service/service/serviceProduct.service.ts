@@ -30,7 +30,7 @@ export class ServiceProductService {
     if(!creator){throw new HttpException("USER_NOT_FOUND", 404)}
 
 //------------leaders-----------------------------------
-const ids = service.leadersIds 
+    const ids = service.leadersIds 
     const leaders = await this.userRepo
       .createQueryBuilder('user')
       .where('user.id IN (:...ids)', { ids })
@@ -65,24 +65,24 @@ const ids = service.leadersIds
   
 
   async delete(id: number): Promise<void> {
+    const serviceDelete = await this.serviceRepository.find({where:{id}})
+    if(!serviceDelete){throw new NotFoundException(`Service with id ${id} not found`);}
     await this.serviceRepository.delete(id);
   }
 
-  async findByLeaderName(name: string): Promise<ServiceProduct[]> {
+  async findByLeaderEmail(email: string): Promise<ServiceProduct[]> {
     return await this.serviceRepository.createQueryBuilder('service')
       .leftJoin('service.leaders', 'leader')
-      .where('leader.name = :leaderName', { leaderName: name })
+      .where('leader.email = :leaderEmail', { leaderEmail: email })
       .getMany();
   }
   
 
-  async findByCreatorName(creatorName: string): Promise<ServiceProduct[]> {
+  async findByCreatorEmail(creatorEmail: string): Promise<ServiceProduct[]> {
     return await this.serviceRepository.createQueryBuilder('service')
       .leftJoin('service.creator', 'creator')
-      .where('creator.name = :creatorName', { creatorName })
+      .where('creator.email = :creatorEmail', { creatorEmail })
       .getMany();
   }
-  
-  
   
 }

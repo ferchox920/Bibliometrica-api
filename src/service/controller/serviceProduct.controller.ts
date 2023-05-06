@@ -14,13 +14,13 @@ export class ServiceProductController {
     }
 
     @Get(':id')
-    findById(@Param() id : number): Promise <ServiceProduct>{
+    findById(@Param('id') id : number): Promise <ServiceProduct>{
         return this.serviceProductService.findById(id);
     }
 
-    @Get('leader/:leaderName')
-    findByLeaderName(@Param() leaderName : string){
-        return this.serviceProductService.findByLeaderName(leaderName)
+    @Get('leader/:leaderEmail')
+    findByLeaderEmail(@Param('leaderEmail') leaderEmail : string){
+        return this.serviceProductService.findByLeaderEmail(leaderEmail)
     }
 
     @Post()
@@ -28,9 +28,9 @@ export class ServiceProductController {
         return this.serviceProductService.create(newService)
     }
 
-    @Get('creator/:creatorName')
-    findByCreatorName(){
-
+    @Get('creator/:creatorEmail')
+    findByCreatorEmail(@Param('creatorEmail') creatorEmail : string){
+        return this.serviceProductService.findByCreatorEmail(creatorEmail);
     }
 
 }
