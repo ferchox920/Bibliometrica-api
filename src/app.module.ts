@@ -18,7 +18,7 @@ import { Organization } from './organization/entities/organization.entity';
         imports:[ConfigModule],
         useFactory: async (configService : ConfigService) =>({
           type: 'postgres',
-          host: 'localhost',
+          host: configService.get<string>('PGHOST'),
           port: configService.get<number>('DB_PORT'),
           username:  configService.get<string>('DB_USER'),
           password: configService.get<string>('DB_PASSWORD'),
