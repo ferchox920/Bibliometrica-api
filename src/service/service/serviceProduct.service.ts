@@ -84,5 +84,4 @@ export class ServiceProductService {
       .where('creator.email = :creatorEmail', { creatorEmail })
       .getMany();
   }
-  
 }

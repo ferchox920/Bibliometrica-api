@@ -1,8 +1,5 @@
-import { Organization } from "src/organization/entities/organization.entity";
-import { User } from "src/user/entities/user.entity";
-
 export class CreateServiceDto {
-
+  
   name: string;
 
   description: string;
