@@ -54,6 +54,11 @@ export class ServiceProductService {
     return await this.serviceRepository.findOne({where:{id}});
   }
 
+  async findByUserOrganization(){
+    // Antes de hacer este endpoint hay que establecer
+    // relaciones entre los usuarios y la organizaciones
+  }
+
   async update(id: number, service: Partial<ServiceProduct>): Promise<ServiceProduct> {
     const existingService = await this.serviceRepository.findOne({where:{id}});
     if (!existingService) {
